@@ -7,7 +7,8 @@ use Validator;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
+    public function login(Request $request)
+    {
     	$validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required|string|min:6',
@@ -18,14 +19,10 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $x= $this->createNewToken($token);
-
-        return response()->json([
-            'result' => ['message'=>'success',
-            'token' => $x,
-        ],
-        'error'=>null
-        ]);
+        $user = User::where('email',$request->email)->first();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        
+        return response()->json(['token'=> $token]);
     }
     
     /**
