@@ -25,11 +25,8 @@ class AuthController extends Controller
         return response()->json(['token'=> $token]);
     }
     
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    
+    
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|between:2,100',
@@ -51,9 +48,4 @@ class AuthController extends Controller
         'error'=>null], 201);
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
 }
